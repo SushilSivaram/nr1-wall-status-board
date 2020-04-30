@@ -9,6 +9,7 @@ import BrandLogo from './brand_logo.png'
 import NRLogo from './nrlogo.png'
 import { StatusGroup, StatusBlock } from '../../components/BoardElements'
 import WidgetNRQL from '../../components/BoardElements/WidgetNRQL'
+import WidgetWorkloads from '../../components/BoardElements/WidgetWorkloads.js'
 import Configurator from '../../components/Configurator'
 import { Spinner, nerdlet, NerdletStateContext, Link } from 'nr1'
 
@@ -199,6 +200,47 @@ export default class StatusBoardNerdlet extends React.Component {
                                                         }
                                                     },
                                                     {
+                                                        "title": "Workloads alerts",
+                                                        "properties": {
+                                                            "wlTitle" : {
+                                                                "type": "string",
+                                                                "title": "Title",
+                                                                "description": "Widget title"
+                                                            },
+                                                            "wlName": {
+                                                                "type": "string",
+                                                                "title": "Workload Name",
+                                                                "description": "Required name of workload for entities lookup"
+                                                            },
+                                                            "wlAccountId" : {
+                                                                "type": "string",
+                                                                "title": "Query Account ID",
+                                                                "description": "Optional: Provide a different account ID for this query. Leave blank to use the one set in config."
+                                                            },
+                                                            "wlQuery": {
+                                                                "type": "string",
+                                                                "title": "Workload Query",
+                                                                "description": "Optional: Query for entities lookup, such as domain='INFRA'"
+                                                            },
+                                                            "wlLink" : {
+                                                                "type": "string",
+                                                                "title": "Link URL",
+                                                                "description": "Optional: URL to link to if widget is clicked"
+                                                            },
+                                                            "wlLabel": {
+                                                                "type": "string",
+                                                                "title": "Label",
+                                                                "description": "Optional: Label to appear under the value"
+                                                            },
+                                                            "debugMode": {
+                                                                    "type": "boolean",
+                                                                    "title": "Debug mode",
+                                                                    "default": false
+                                                                }
+                                                        }
+
+                                                    },
+                                                    {
                                                         "title": "Place holder",
                                                         "properties": {
                                                             "ph_title" : {
@@ -257,6 +299,10 @@ export default class StatusBoardNerdlet extends React.Component {
 
     nrqlThresholdWidget(config,autoRefresh, idx, page) {
         return <WidgetNRQL key={idx} accountId={this.accountId} config={config} autoRefresh={autoRefresh} pageRef={page}/>
+    }
+
+    WorkloadsWidget(config,autoRefresh, idx, page) { 
+        return <WidgetWorkloads key={idx} accountId={this.accountId} config={config} autoRefresh={autoRefresh} pageRef={page}/>
     }
 
     placeHolderWidget(title,status,label,idx) {
@@ -319,6 +365,9 @@ export default class StatusBoardNerdlet extends React.Component {
                                 let widgetRender= <div>Not implemented</div>
                                     if(widget.title) {
                                         widgetRender = this.nrqlThresholdWidget(widget, config.autoRefresh,idx,currentPage)
+                                    }
+                                    if(widget.wlTitle) {
+                                        widgetRender = this.WorkloadsWidget(widget, config.autoRefresh, idx, currentPage)
                                     }
                                     if(widget.ph_title) {
                                         widgetRender = this.placeHolderWidget(widget.ph_title,widget.ph_status, widget.ph_label,idx)
