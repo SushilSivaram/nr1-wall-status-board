@@ -62,7 +62,7 @@ export default class WidgetWorkloads extends Component {
                 }
             }
             )
-            if(config.debugMode===true) {
+            if(config.wlDebugMode===true) {
                 console.log(`DEBUG MODE ENABLED: ${config.wlName} collectionId`,collectionId)
             }
     
@@ -73,7 +73,7 @@ export default class WidgetWorkloads extends Component {
                     console.log(collectionEntity.errors)
                 } else {
                     let entitySearchQuery = (wlQuery && wlQuery.length > 1) ? collectionEntity.data.actor.account.workload.collection.entitySearchQuery+' AND '+wlQuery : collectionEntity.data.actor.account.workload.collection.entitySearchQuery;
-                    if(config.debugMode===true) {
+                    if(config.wlDebugMode===true) {
                         console.log(`DEBUG MODE ENABLED: ${config.wlName} searchQuery`,entitySearchQuery)
                     }
                             let entitySearch = await NerdGraphQuery.query({query: gql.entitiesAlerting(accountId,entitySearchQuery)});
@@ -104,7 +104,7 @@ export default class WidgetWorkloads extends Component {
                 }
             }
         }
-        if(config.debugMode===true) {
+        if(config.wlDebugMode===true) {
             console.log(`DEBUG MODE ENABLED: ${config.wlName}`,status)
         }
                             let data = {
@@ -134,8 +134,9 @@ export default class WidgetWorkloads extends Component {
                     historyBlocks.push({status:current})                     
             }
 
+            let infoToolTip = (wlLink && wlLink.length > 1) ? "Click to see details" : "Current alert status";
 
-            return <StatusBlock title={wlTitle} bigValue={wlName} bigValueLabel={wlLabel} bigValueSuffix="" status={current} history={historyBlocks} info={"APM Alerts"} infoTooltip={"Current alert status"} link={wlLink}/>
+            return <StatusBlock title={wlTitle} bigValue={wlName} bigValueLabel={wlLabel} bigValueSuffix={""} status={current} history={historyBlocks} info={"APM Alerts"} infoTooltip={infoToolTip} link={wlLink}/>
         } else {
             return <><StatusBlock title={wlTitle} /></>
         }

@@ -232,7 +232,7 @@ export default class StatusBoardNerdlet extends React.Component {
                                                                 "title": "Label",
                                                                 "description": "Optional: Label to appear under the value"
                                                             },
-                                                            "debugMode": {
+                                                            "wlDebugMode": {
                                                                     "type": "boolean",
                                                                     "title": "Debug mode",
                                                                     "default": false
@@ -363,6 +363,7 @@ export default class StatusBoardNerdlet extends React.Component {
                             group.widgets.forEach((widget,idx)=>{
                                 
                                 let widgetRender= <div>Not implemented</div>
+                                console.log(widget.title, widget.wlTitle, widget.ph_title)
                                     if(widget.title) {
                                         widgetRender = this.nrqlThresholdWidget(widget, config.autoRefresh,idx,currentPage)
                                     }
