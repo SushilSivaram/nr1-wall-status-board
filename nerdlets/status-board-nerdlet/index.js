@@ -345,7 +345,7 @@ export default class StatusBoardNerdlet extends React.Component {
 
                     }
                 } else {
-                    //no auto-roatet so just show selected page
+                    //no auto-rotate so just show selected page
                     currentPage=nerdletState && nerdletState.page ? nerdletState.page : 0
                     
                 }
@@ -363,7 +363,6 @@ export default class StatusBoardNerdlet extends React.Component {
                             group.widgets.forEach((widget,idx)=>{
                                 
                                 let widgetRender= <div>Not implemented</div>
-                                console.log(widget.title, widget.wlTitle, widget.ph_title)
                                     if(widget.title) {
                                         widgetRender = this.nrqlThresholdWidget(widget, config.autoRefresh,idx,currentPage)
                                     }

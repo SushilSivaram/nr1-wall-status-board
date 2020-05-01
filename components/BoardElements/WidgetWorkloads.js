@@ -135,8 +135,9 @@ export default class WidgetWorkloads extends Component {
             }
 
             let infoToolTip = (wlLink && wlLink.length > 1) ? "Click to see details" : "Current alert status";
+            let infoText = (wlLabel) ? "" : "Workload";
 
-            return <StatusBlock title={wlTitle} bigValue={wlName} bigValueLabel={wlLabel} bigValueSuffix={""} status={current} history={historyBlocks} info={"APM Alerts"} infoTooltip={infoToolTip} link={wlLink}/>
+            return <StatusBlock title={wlTitle} bigValue={wlName} bigValueLabel={wlLabel} bigValueSuffix={""} status={current} history={historyBlocks} info={infoText} infoTooltip={infoToolTip} link={wlLink}/>
         } else {
             return <><StatusBlock title={wlTitle} /></>
         }

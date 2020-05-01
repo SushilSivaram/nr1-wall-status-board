@@ -86,9 +86,15 @@ export  class StatusBlock extends Component {
         }
 
         let StatusBlocks=[]
+        let historyLabelLeft=""
+        let historyLabelRight=""
         for (let i=23; i >= 0; i--) {
             if(history && history[i] ) {
                 StatusBlocks.push(generateBlock(history[i],i))
+                if(history[i].startTime) {
+                    historyLabelLeft="Older"
+                    historyLabelRight="Recent"            
+                }
             } else {
                 //StatusBlocks.push(<div className="HistoryBlock">&nbsp;</div>)
                 StatusBlocks.push(<Tooltip key={i} text="No data"><div className={`HistoryBlock HBNormal}`}>&nbsp;</div></Tooltip>)
@@ -136,8 +142,8 @@ export  class StatusBlock extends Component {
             <div className="HistoryBlocksContainer">
             {extraInfo}
             <div className="HistoryBlocks">
-                <div className="historyLabel historyLabelLeft">Older</div>
-                <div className="historyLabel historyLabelRight">Recent</div>
+                <div className="historyLabel historyLabelLeft">{historyLabelLeft}</div>
+                <div className="historyLabel historyLabelRight">{historyLabelRight}</div>
                 <div className="clear"></div>
                 {StatusBlocks}
             </div>
