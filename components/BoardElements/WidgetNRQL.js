@@ -136,7 +136,7 @@ export default class WidgetNRQL extends Component {
 
     render() {
         let {config} = this.props
-        let {title, roundTo, valueLabel, valueSuffix, thresholdType, thresholdDirection, thresholdCritical, thresholdCriticalLabel, thresholdWarning, thresholdWarningLabel, thresholdNormalLabel, customFeature, link} = config
+        let {title, roundTo, valueLabel, valueSuffix, thresholdType, thresholdDirection, thresholdCritical, thresholdCriticalLabel, thresholdWarning, thresholdWarningLabel, thresholdNormalLabel, customFeature, link, nrql, accountId} = config
         let {data} = this.state
 
         const determineStatus = (val) => {
@@ -230,7 +230,7 @@ export default class WidgetNRQL extends Component {
                 
             }
 
-            return <StatusBlock title={title} bigValue={formatValue(current)} bigValueLabel={valueLabel} bigValueSuffix={valueSuffix} status={determineStatus(current)} history={historyBlocks} info={info} infoTooltip={infoTooltip} link={link}/>
+            return <StatusBlock title={title} bigValue={formatValue(current)} bigValueLabel={valueLabel} bigValueSuffix={valueSuffix} status={determineStatus(current)} history={historyBlocks} info={info} infoTooltip={infoTooltip} link={link} nrql={nrql} accountId = {accountId}/>
         } else {
             return <><StatusBlock title={title} /></>
         }

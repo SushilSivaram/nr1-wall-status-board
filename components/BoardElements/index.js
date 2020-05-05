@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, GridItem, Icon, Tooltip } from 'nr1'
+import { Grid, GridItem, Icon, Tooltip, SparklineChart } from 'nr1'
 import  moment from 'moment'
 
 export class StatusGroup extends Component {
@@ -41,7 +41,7 @@ export class StatusGroup extends Component {
 export  class StatusBlock extends Component {
     render() {
 
-        let {title,status, bigValue, bigValueLabel, bigValueSuffix, history, info, infoTooltip, link } = this.props 
+        let {title,status, bigValue, bigValueLabel, bigValueSuffix, history, info, infoTooltip, link, nrql, accountId } = this.props 
 
         if(!bigValueLabel) {bigValueLabel=<>&nbsp;</> }
         let className="StatusBlock normal"
@@ -129,7 +129,14 @@ export  class StatusBlock extends Component {
             </div>
             {loadingData}
             <div>
-                <div className="BigValue">{bigValue}{bigValueSuffixComponent}</div>
+                <SparklineChart className="nr1-dashboards vz-theme-dark MosaicWidget" accountId={accountId}
+                query={nrql + " timeseries since 1 week ago"} 
+                style= {{height:"75px", position:"absolute", opacity:".3"}}>
+                </SparklineChart>
+                <div className="BigValue">
+                {bigValue}
+                {bigValueSuffixComponent}
+                </div>
                 <div className="BigValueLabel">{bigValueLabel}</div>
             </div>
            
