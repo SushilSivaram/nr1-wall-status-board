@@ -1,6 +1,6 @@
 import React, { Component,  } from 'react';
 import PropTypes from 'prop-types';
-import { StatusBlock } from './';
+import { StatusBlock, BreakdownBlock } from './';
 import {NerdGraphQuery} from 'nr1';
 const gql = require( '../../components/BoardElements/query.js');
 
@@ -36,7 +36,7 @@ export default class WidgetWorkloads extends Component {
 
     async loadData() {
         const { config } = this.props
-        const { wlName, wlQuery} = config
+        const { wlName, wlQuery, wlThresholdCriticalAlerts, wlThresholdCriticalWarnings, wlThresholdWarningAlerts, wlThresholdWarningWarnings} = config
 
         let accountId = config.wlAccountId ? config.wlAccountId : this.props.accountId;
  
@@ -93,13 +93,26 @@ export default class WidgetWorkloads extends Component {
                                     NotAlertingEntities.push(entity)
                                 }
                         })
-                        if(CriticalEntities.length > 0 ) {
-                            status = "C"
-                        } else if (WarningEntities.length > 0) {
-                            status = "W"
-                        } else {
-                            status = "N"
+
+                        let criticalPerc = (CriticalEntities.length / NotAlertingEntities.length) * 100
+                        let warningPerc = (WarningEntities.length / NotAlertingEntities.length) * 100
+
+                        //set status based on warnings
+                        if(warningPerc > wlThresholdWarningWarnings) {
+                            status="W"
                         }
+                        if(warningPerc > wlThresholdCriticalWarnings) {
+                            status="C"
+                        } 
+
+                        //set status based on alerts (critical entities)
+                        if(criticalPerc > wlThresholdWarningAlerts && status=="N") {
+                            status="W"
+                        }
+                        if(criticalPerc > wlThresholdCriticalAlerts) {
+                            status="C"
+                        } 
+
                     }
                 }
             }
@@ -109,7 +122,7 @@ export default class WidgetWorkloads extends Component {
         }
                             let data = {
                                     "current": status,
-                                    "history": status
+                                    "breakdown": {critical:CriticalEntities.length, warning:WarningEntities.length, normal:NotAlertingEntities.length}
                                 }
                                 
                                 this.setState({ data: data  })
@@ -122,24 +135,18 @@ export default class WidgetWorkloads extends Component {
 
     render() {
         let {config} = this.props
-        let {wlTitle, wlName, wlLink, wlLabel} = config
+        let {wlTitle, wlLink, wlShowPercentages } = config
         let {data} = this.state
 
 
         if(data) {
-            let {current, history} = data
+            let {current, breakdown} = data
 
-            let historyBlocks=[]
-            for (let i=1; i <=24; i++) {
-                    historyBlocks.push({status:current})                     
-            }
+            console.log("breakdown",breakdown)
 
-            let infoToolTip = (wlLink && wlLink.length > 1) ? "Click to see details" : "Current alert status";
-            let infoText = (wlLabel) ? "" : "Workload";
-
-            return <StatusBlock title={wlTitle} bigValue={wlName} bigValueLabel={wlLabel} bigValueSuffix={""} status={current} history={historyBlocks} info={infoText} infoTooltip={infoToolTip} link={wlLink}/>
+            return <BreakdownBlock title={wlTitle} status={current} breakdown={breakdown} showPercentages={wlShowPercentages} link={wlLink}/>
         } else {
-            return <><StatusBlock title={wlTitle} /></>
+            return <><BreakdownBlock title={wlTitle} /></>
         }
        
         

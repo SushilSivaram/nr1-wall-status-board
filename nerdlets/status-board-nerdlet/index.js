@@ -227,10 +227,37 @@ export default class StatusBoardNerdlet extends React.Component {
                                                                 "title": "Link URL",
                                                                 "description": "Optional: URL to link to if widget is clicked"
                                                             },
-                                                            "wlLabel": {
+                                                            "wlThresholdCriticalAlerts": {
                                                                 "type": "string",
-                                                                "title": "Label",
-                                                                "description": "Optional: Label to appear under the value"
+                                                                "title": "Critical threshold for alerts",
+                                                                "description": "% of critical entities to cause critical state",
+                                                                "default": 0
+                                                            },
+                                                            
+                                                            "wlThresholdCriticalWarnings": {
+                                                                "type": "string",
+                                                                "title": "Critical threshold for warnings",
+                                                                "description": "% of warning entities to cause critical state",
+                                                                "default": 50
+
+                                                            },
+                                                            "wlThresholdWarningAlerts": {
+                                                                "type": "string",
+                                                                "title": "Warning threshold for alerts",
+                                                                "description": "% of critical entities to cause warning state",
+                                                                "default": 0
+                                                            },
+                                                            
+                                                            "wlThresholdWarningWarnings": {
+                                                                "type": "string",
+                                                                "title": "Warning threshold for warnings",
+                                                                "description": "% of warning entities to cause warning state",
+                                                                "default": 0
+                                                            },
+                                                            "wlShowPercentages": {
+                                                                "type": "boolean",
+                                                                "title": "Show percentages",
+                                                                "default": false
                                                             },
                                                             "wlDebugMode": {
                                                                     "type": "boolean",

@@ -329,3 +329,48 @@ $glow_warning_end: #5e421a;
     background-color: $widget_bg;
     color: $widget_loading_color;
 }
+
+/* Breakdown widget */
+
+.breakdownHeadlines {
+    width: 100%;
+}
+.breakdownHeadline {
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding-top:1vw;
+}
+.breakdownNumber {
+    font-size: 2vw;
+}
+.breakdownSubtitle {
+    text-transform: uppercase;
+    font-size: 0.6vw;
+}
+
+.breakdownGraph {
+    margin: 0 0.5vw;
+    height: 1.5vw;
+    background-color: $history_block_normal;
+}
+.breakdownGraphCritical {
+    background-color: $history_block_critical;
+    height: 100%;
+    float:left;
+}
+.breakdownGraphWarning {
+    background-color: $history_block_warning;
+    height: 100%;
+    float:left;
+}
+.breakdownGraphNormal {
+    height: 100%;
+    float:left;
+}
+.breakdownGraphInner {
+    width: 100%;
+}
+.breakdownPercLabel {
+    font-size:1vw;
+}

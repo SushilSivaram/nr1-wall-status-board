@@ -152,3 +152,89 @@ export  class StatusBlock extends Component {
  
     }
 }
+
+
+export  class BreakdownBlock extends Component {
+    render() {
+
+        let {title,status, breakdown, link, showPercentages } = this.props 
+
+        let className="StatusBlock normal"
+        let headerIcon=""
+        if(status== "C") { 
+            className="StatusBlock critical"
+            headerIcon=<div style={{float:"right"}}><Icon type={Icon.TYPE.INTERFACE__STATE__WARNING}/></div>
+         }
+        if(status== "W") { 
+            className="StatusBlock warning"
+            headerIcon=<div style={{float:"right"}}><Icon type={Icon.TYPE.INTERFACE__STATE__WARNING}/></div>
+        }
+
+        if(link) {
+            className=className+" linkedWidget"
+        }
+           
+        let loadingData=""
+        if(!breakdown) {
+            loadingData=<div className="WidgetLoading">Loading...</div>
+        }
+
+        let clickFn=null
+        if(link && link!="") {
+            clickFn=()=>{window.open(link)}
+        }
+
+
+        let breakDownHeadlines, breakdownGraph
+        if(breakdown) {
+            
+            let totalEntities=breakdown.critical + breakdown.warning + breakdown.normal
+            let percentCritical=(breakdown.critical/totalEntities) * 100
+            let percentWarning=(breakdown.warning/totalEntities) * 100
+            let percentNormal=((totalEntities-breakdown.warning-breakdown.critical)/totalEntities) * 100
+    
+            let headlineCritical = breakdown.critical
+            let headlineWarning = breakdown.warning
+            if(showPercentages) {
+                headlineCritical = <><span>{percentCritical.toFixed(0)}</span><span className="breakdownPercLabel">%</span></>
+                headlineWarning = <><span>{percentWarning.toFixed(0)}</span><span className="breakdownPercLabel">%</span></>
+            }
+
+            breakDownHeadlines=<div className="breakdownHeadlines">
+                <div className="breakdownHeadline">
+                    <div className="breakdownNumber">{headlineCritical}</div>
+                    <div className="breakdownSubtitle">Critical</div>
+                </div>
+                <div className="breakdownHeadline">
+                    <div className="breakdownNumber">{headlineWarning}</div>
+                    <div className="breakdownSubtitle">Warning</div>
+                </div>
+            </div>    
+        
+
+        
+
+        breakdownGraph=<div className="breakdownGraph">
+            <div className="breakdownGraphCritical" style={{width: percentCritical}}><Tooltip style={{width:"100%"}} text={`Critical ${percentCritical.toFixed(0)}%`}><div>&nbsp;</div></Tooltip></div>
+            <div className="breakdownGraphWarning" style={{width: percentWarning}}><Tooltip style={{width:"100%"}} text={`Warning ${percentWarning.toFixed(0)}%`}><div>&nbsp;</div></Tooltip></div>
+            <div className="breakdownGraphNormal" style={{width: percentNormal}}><Tooltip style={{width:"100%"}} text={`Normal ${percentNormal.toFixed(0)}%`}><div>&nbsp;</div></Tooltip></div>
+        </div>
+        }
+
+
+        return <div className={className} onClick={clickFn}>
+            <div>
+                <h2>{title}
+                   {headerIcon}
+                </h2>
+            </div>
+            {loadingData}
+            {breakDownHeadlines}
+           
+            <div className="HistoryBlocksContainer">
+                {breakdownGraph}
+            </div>
+        </div>
+ 
+    }
+}
